@@ -1,14 +1,23 @@
-const mongoose = require("mongoose");
-const uri = "mongodb+srv://adminhamza:adminhamza123&@cluster0.pzcviot.mongodb.net/InventoryManagementApp?retryWrites=true&w=majority";
+require('dotenv').config();
+const mysql = require('mysql2');
 
+const connection = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  port : process.env.PORT
+});
 
-function main() {
-    mongoose.connect(uri).then(() => {
-        console.log("Succesfull")
-    
-    }).catch((err) => {
-        console.log("Error: ", err)
-    })
-}
+console.log('here: ', {
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  port: process.env.PORT
+});
 
-module.exports = { main };
+connection.connect((err) => {
+  if (err) throw err;
+  console.log('Connected to MySQL database!');
+});
+
+module.exports = connection;
